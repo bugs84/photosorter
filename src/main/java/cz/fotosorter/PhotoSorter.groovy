@@ -3,9 +3,9 @@ package cz.fotosorter
 import groovy.transform.Field
 import org.apache.commons.io.FileUtils
 
-def source = new File("c:\\foto\\AANikkonTransfer\\004_DELETE_FotoSorter_SOURCE")
+File source = new File("c:\\foto\\AANikkonTransfer\\004_DELETE_FotoSorter_SOURCE")
 @Field
-def destination = new File("c:\\foto\\AANikkonTransfer\\004_DELETE_FotoSorterOUTPUT")
+File destination = new File("c:\\foto\\AANikkonTransfer\\004_DELETE_FotoSorterOUTPUT")
 
 source.eachFile {
     processFile(it)
@@ -14,6 +14,10 @@ source.eachFile {
 
 private void processFile(File image) {
     Date date = Utils.getImageDate(image)
+
+    if(date == null) {
+        println "ERROR - cannot obtain date from image '"+image+"'"
+    }
 
     File destinationFile = getDestinationFile(date, image)
 
