@@ -15,8 +15,8 @@ source.eachFile {
 private void processFile(File image) {
     Date date = Utils.getImageDate(image)
 
-    if(date == null) {
-        println "ERROR - cannot obtain date from image '"+image+"'"
+    if (date == null) {
+        println "ERROR - cannot obtain date from image '" + image + "'"
     }
 
     File destinationFile = getDestinationFile(date, image)
