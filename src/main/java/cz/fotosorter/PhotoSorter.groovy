@@ -9,7 +9,7 @@ class PhotoSorter {
     public void moveFiles(File sourceDirectory, File destinationDirectory) {
         this.source = sourceDirectory
         this.destination = destinationDirectory
-        this.source.eachFile {
+        this.source.eachFileMatch(~/(?i).*\.jpg/) {
             processFile(it)
         }
     }

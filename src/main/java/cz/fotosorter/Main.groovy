@@ -9,7 +9,7 @@ Usage:
 Main <source folder> <destination folder>
 
 Short description:
-This program take all photos from 'source folder' and move them into 'destination/YYYY_mm_DD' folder.
+This program take all photos from 'source folder' and move them into 'destination folder/YYYY_mm_DD' folder.
 '''
     }
 
@@ -22,7 +22,6 @@ This program take all photos from 'source folder' and move them into 'destinatio
         File source = new File(args[0])
         File destination = new File(args[1])
 
-        def photoSorter = new PhotoSorter()
-        photoSorter.moveFiles(source, destination)
+        new PhotoSorter().moveFiles(source, destination)
     }
 }
