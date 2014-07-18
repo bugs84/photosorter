@@ -1,0 +1,1 @@
+Můj skriptík na stahování a roztřídění fotek.
