@@ -19,9 +19,9 @@ This program take all photos from 'source folder' and move them into 'destinatio
             return
         }
 
-        File source = new File(args[0])
-        File destination = new File(args[1])
-
-        new PhotoSorter().moveFiles(source, destination)
+        new PhotoSorter(new PhotoSorterSettings(
+                source: new File(args[0]),
+                destination: new File(args[1]),
+        )).sort()
     }
 }

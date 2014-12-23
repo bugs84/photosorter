@@ -2,14 +2,20 @@ package cz.fotosorter
 
 import org.apache.commons.io.FileUtils
 
-class PhotoSorter {
-    File source
-    File destination
+import static cz.fotosorter.MoveOrCopy.COPY
+import static cz.fotosorter.MoveOrCopy.MOVE
 
-    public void moveFiles(File sourceDirectory, File destinationDirectory) {
-        this.source = sourceDirectory
-        this.destination = destinationDirectory
-        this.source.eachFileMatch(~/(?i).*\.jpg/) {
+
+class PhotoSorter {
+
+    PhotoSorterSettings settings
+
+    PhotoSorter(PhotoSorterSettings settings) {
+        this.settings = settings
+    }
+
+    public void sort() {
+        settings.source.eachFileMatch(~/(?i).*\.jpg/) {
             processFile(it)
         }
     }
@@ -23,16 +29,31 @@ class PhotoSorter {
 
         File destinationFile = getDestinationFile(date, image)
 
-        println "moving file '$image' into '$destinationFile' "
-        FileUtils.moveFile(image, destinationFile)
-//    FileUtils.copyFile(image, destinationFile)
+        moveOrCopyFile(image, destinationFile)
+
+
 
         destinationFile.setLastModified(date.getTime())
     }
 
+    private void moveOrCopyFile(File image, File destinationFile) {
+        switch (settings.moveOrCopy) {
+            case MOVE:
+                println "moving file '$image' into '$destinationFile' "
+                FileUtils.moveFile(image, destinationFile)
+                break
+            case COPY:
+                println "copying file '$image' into '$destinationFile' "
+                FileUtils.copyFile(image, destinationFile)
+                break
+            default:
+                throw IllegalStateException("Unsopported option " + settings.moveOrCopy)
+        }
+    }
+
     private File getDestinationFile(Date date, File image) {
         def folderName = Utils.getFolderName(date)
-        def destinationFolder = new File(destination, folderName)
+        def destinationFolder = new File(settings.destination, folderName)
         def destinationFile = new File(destinationFolder, image.name)
         destinationFile
     }
