@@ -1,5 +1,6 @@
 package cz.fotosorter
 
+import cz.fotosorter.util.Utils
 import org.junit.Test
 
 
