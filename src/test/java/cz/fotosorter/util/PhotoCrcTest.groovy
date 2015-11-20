@@ -6,7 +6,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 
-class PhotoHashTest {
+class PhotoCrcTest {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -15,12 +15,12 @@ class PhotoHashTest {
     void 'compute hash of lena file'() {
         File lenaFile = copyLenaFromResourceToFile()
 
-        assert new PhotoHash(lenaFile).checksum == 3270423915
+        assert new PhotoCrc(lenaFile).crc == "3270423915"
     }
 
     private File copyLenaFromResourceToFile() {
         IOGroovyMethods.withCloseable(
-                PhotoHashTest.class.classLoader.getResourceAsStream("lena.jpg")
+                PhotoCrcTest.class.classLoader.getResourceAsStream("lena.jpg")
         ) { InputStream lenaStream ->
             File lenaFile = temporaryFolder.newFile("lena.jpg")
             FileUtils.copyInputStreamToFile(lenaStream, lenaFile)
