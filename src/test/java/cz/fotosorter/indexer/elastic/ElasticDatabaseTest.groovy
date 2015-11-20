@@ -5,13 +5,13 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class ElasticTest {
+class ElasticDatabaseTest {
 
-    Elastic elastic
+    ElasticDatabase elastic
 
     @Before
     void setup() {
-        elastic = new Elastic()
+        elastic = new ElasticDatabase()
         elastic.start()
     }
 
