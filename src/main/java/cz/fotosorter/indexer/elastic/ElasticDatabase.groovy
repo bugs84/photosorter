@@ -3,7 +3,9 @@ package cz.fotosorter.indexer.elastic
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.ObjectReader
 import com.fasterxml.jackson.databind.ObjectWriter
+import cz.fotosorter.indexer.api.Database
 import cz.fotosorter.indexer.api.PhotoInfo
+import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse
 import org.elasticsearch.action.get.GetRequestBuilder
 import org.elasticsearch.action.get.GetResponse
 import org.elasticsearch.action.index.IndexRequest
@@ -12,9 +14,8 @@ import org.elasticsearch.client.Client
 import org.elasticsearch.node.Node
 import org.elasticsearch.node.NodeBuilder
 
-class Elastic {
+class ElasticDatabase implements Database {
 
-//    "c:/foto/.photosorter/elastic-database"
     private String databaseDirectory = "target/elastic-database"
 
     private String indexName = "photo-index"
@@ -33,29 +34,50 @@ class Elastic {
         databaseDirectory
     }
 
-    Elastic setDatabaseDirectory(String databaseDirectory) {
+    ElasticDatabase setDatabaseDirectory(String databaseDirectory) {
         this.databaseDirectory = databaseDirectory
         this
     }
 
+    @Override
     public void start() {
         def builder = NodeBuilder.nodeBuilder()
         builder.getSettings().put("path.data", databaseDirectory)
         node = builder.node()
         client = this.node.client()
+
+        prepareIndex()
     }
 
+    private void prepareIndex() {
+        IndicesExistsResponse existsResponse = client.admin().indices().prepareExists(indexName).execute().actionGet()
+        if (!existsResponse.exists) {
+            println "Index doesn't exists - going to create new."
+            createIndex()
+        } else {
+            println "Ok - Index already exists."
+        }
+    }
+
+    private void createIndex() {
+        //inserting fake photo info to create index, because next line doesn't work well
+        //client.admin().indices().prepareCreate(indexName).execute().actionGet()
+        insert(new PhotoInfo(crc: "fakeObjectToCreateIndex"))
+    }
+
+    @Override
     public void stop() {
         this.node.close()
     }
 
+    @Override
     public void insert(PhotoInfo photoInfo) {
         IndexRequest indexRequest = new IndexRequest(indexName, type, photoInfo.crc);
         indexRequest.source(jsonWriter.writeValueAsString(photoInfo))
         IndexResponse response = this.client.index(indexRequest).actionGet();
     }
 
-    /** return null if photo no such crc found */
+    @Override
     public PhotoInfo get(String crc) {
         GetRequestBuilder getRequestBuilder = client.prepareGet(indexName, type, crc);
         GetResponse getResponse = getRequestBuilder.execute().actionGet();
@@ -65,6 +87,11 @@ class Elastic {
         }
         PhotoInfo photoInfo = jsonReader.readValue(photoInfoString)
         return photoInfo
+    }
+
+    @Override
+    boolean contains(String crc) {
+        get(crc) != null
     }
 
     private void test() {
@@ -107,6 +134,6 @@ class Elastic {
     }
 
     public static void main(String[] args) {
-        new Elastic().test()
+        new ElasticDatabase().test()
     }
 }

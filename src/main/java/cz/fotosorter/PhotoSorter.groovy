@@ -1,29 +1,61 @@
 package cz.fotosorter
 
+import cz.fotosorter.indexer.api.Database
+import cz.fotosorter.indexer.api.PhotoInfo
+import cz.fotosorter.indexer.dummy.DummyDatabase
+import cz.fotosorter.indexer.elastic.ElasticDatabase
+import cz.fotosorter.util.PhotoCrc
 import cz.fotosorter.util.Utils
 import org.apache.commons.io.FileUtils
 
 import static cz.fotosorter.MoveOrCopy.COPY
 import static cz.fotosorter.MoveOrCopy.MOVE
 
-
 class PhotoSorter {
 
-    PhotoSorterSettings settings
+    //TODO logger
+
+    private PhotoSorterSettings settings
 
     private FileNameFormatter fileNameFormatter = new FileNameFormatter()
 
+    private Database database = new ElasticDatabase()
+
     PhotoSorter(PhotoSorterSettings settings) {
         this.settings = settings
+        setupDatabase()
     }
 
-    public void sort() {
-        settings.source.eachFileMatch(~/(?i).*\.jpg/) {
-            processFile(it)
+    private void setupDatabase() {
+        if (settings.databaseDirectory == null) {
+            println "Warning - no databaseDirectory is configured - same files can be copied multiple times"
+            database = new DummyDatabase()
+        } else {
+            database = new ElasticDatabase(databaseDirectory: settings.databaseDirectory.absolutePath)
         }
     }
 
+    public void sort() {
+        println "Sorting is starting with settings $settings"
+        database.start()
+
+        settings.source.eachFileMatch(~/(?i).*\.jpg/) {
+            processFile(it)
+        }
+
+        database.stop()
+        println "Sorting have just finished"
+    }
+
     private void processFile(File image) {
+        println "Processing file '$image'"
+
+        PhotoCrc photoCrc = new PhotoCrc(image)
+        if (database.contains(photoCrc.crc)) {
+            println "Warning - file '$image' was already processed before. Nothing will be done now."
+            return
+        }
+
         Date date = Utils.getImageDate(image)
 
         if (date == null) {
@@ -35,7 +67,15 @@ class PhotoSorter {
 
         moveOrCopyFile(image, destinationFile)
 
-
+        PhotoInfo photoInfo = new PhotoInfo(
+                crc: photoCrc,
+                originalPath: image.absolutePath,
+                newPath: destinationFile.absolutePath,
+                originalName: image.name,
+                newName: destinationFile.name,
+        //TODO dalsi udaje do photo infa
+        )
+        database.insert(photoInfo)
 
         destinationFile.setLastModified(date.getTime())
     }
@@ -52,7 +92,7 @@ class PhotoSorter {
                 FileUtils.copyFile(image, destinationFile)
                 break
             default:
-                throw new IllegalStateException("Unsupported option " + settings.moveOrCopy)
+                throw new IllegalStateException("Unsupported option $settings.moveOrCopy")
         }
     }
 
