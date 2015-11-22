@@ -1,8 +1,8 @@
-package cz.fotosorter
+package cz.photosorter
 
 import groovy.transform.ToString
 
-import static cz.fotosorter.MoveOrCopy.COPY
+import static cz.photosorter.MoveOrCopy.COPY
 
 @ToString
 class PhotoSorterSettings {

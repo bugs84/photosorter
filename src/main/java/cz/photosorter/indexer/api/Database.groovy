@@ -1,4 +1,4 @@
-package cz.fotosorter.indexer.api
+package cz.photosorter.indexer.api
 
 trait Database {
 

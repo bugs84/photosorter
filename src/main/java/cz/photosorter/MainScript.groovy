@@ -1,6 +1,6 @@
-package cz.fotosorter
+package cz.photosorter
 
-import static cz.fotosorter.MoveOrCopy.MOVE
+import static cz.photosorter.MoveOrCopy.MOVE
 
 
 def photoSorter = new PhotoSorter(new PhotoSorterSettings(

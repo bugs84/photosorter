@@ -1,4 +1,4 @@
-package cz.fotosorter.util
+package cz.photosorter.util
 import com.drew.imaging.ImageMetadataReader
 import com.drew.metadata.exif.ExifIFD0Directory
 import com.drew.metadata.exif.ExifSubIFDDirectory

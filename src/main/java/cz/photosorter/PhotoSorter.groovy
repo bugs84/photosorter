@@ -1,17 +1,17 @@
-package cz.fotosorter
+package cz.photosorter
 
-import cz.fotosorter.indexer.api.Database
-import cz.fotosorter.indexer.api.PhotoInfo
-import cz.fotosorter.indexer.dummy.DummyDatabase
-import cz.fotosorter.indexer.elastic.ElasticDatabase
-import cz.fotosorter.util.PhotoCrc
-import cz.fotosorter.util.Utils
+import cz.photosorter.indexer.api.Database
+import cz.photosorter.indexer.api.PhotoInfo
+import cz.photosorter.indexer.dummy.DummyDatabase
+import cz.photosorter.indexer.elastic.ElasticDatabase
+import cz.photosorter.util.PhotoCrc
+import cz.photosorter.util.Utils
 import org.apache.commons.io.FileUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static cz.fotosorter.MoveOrCopy.COPY
-import static cz.fotosorter.MoveOrCopy.MOVE
+import static cz.photosorter.MoveOrCopy.COPY
+import static cz.photosorter.MoveOrCopy.MOVE
 
 class PhotoSorter {
 

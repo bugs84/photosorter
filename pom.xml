@@ -130,7 +130,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>cz.fotosorter.Main</mainClass>
+                            <mainClass>cz.photosorter.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -140,7 +140,7 @@
             <!--<configuration>-->
             <!--<archive>-->
             <!--<manifest>-->
-            <!--<mainClass>cz.fotosorter.Main</mainClass>-->
+            <!--<mainClass>cz.photosorterr.Main</mainClass>-->
             <!--</manifest>-->
             <!--</archive>-->
             <!--<descriptorRefs>-->
@@ -153,7 +153,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>cz.fotosorter.Main</mainClass>
+                            <mainClass>cz.photosorter.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

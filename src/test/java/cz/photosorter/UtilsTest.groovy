@@ -1,6 +1,6 @@
-package cz.fotosorter
+package cz.photosorter
 
-import cz.fotosorter.util.Utils
+import cz.photosorter.util.Utils
 import org.junit.Test
 
 

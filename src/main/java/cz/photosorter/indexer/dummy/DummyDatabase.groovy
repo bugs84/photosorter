@@ -1,7 +1,7 @@
-package cz.fotosorter.indexer.dummy
+package cz.photosorter.indexer.dummy
 
-import cz.fotosorter.indexer.api.Database
-import cz.fotosorter.indexer.api.PhotoInfo
+import cz.photosorter.indexer.api.Database
+import cz.photosorter.indexer.api.PhotoInfo
 
 class DummyDatabase implements Database{
     @Override

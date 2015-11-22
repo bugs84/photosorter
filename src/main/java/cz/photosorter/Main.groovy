@@ -1,4 +1,4 @@
-package cz.fotosorter
+package cz.photosorter
 
 class Main {
 
