@@ -1,4 +1,4 @@
-package cz.fotosorter.util
+package cz.photosorter.util
 
 import org.apache.commons.io.FileUtils
 

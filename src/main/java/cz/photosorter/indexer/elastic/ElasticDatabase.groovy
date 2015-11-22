@@ -1,10 +1,10 @@
-package cz.fotosorter.indexer.elastic
+package cz.photosorter.indexer.elastic
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.ObjectReader
 import com.fasterxml.jackson.databind.ObjectWriter
-import cz.fotosorter.indexer.api.Database
-import cz.fotosorter.indexer.api.PhotoInfo
+import cz.photosorter.indexer.api.Database
+import cz.photosorter.indexer.api.PhotoInfo
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse
 import org.elasticsearch.action.get.GetRequestBuilder
 import org.elasticsearch.action.get.GetResponse

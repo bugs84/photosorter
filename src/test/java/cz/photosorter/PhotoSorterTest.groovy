@@ -1,6 +1,6 @@
-package cz.fotosorter
+package cz.photosorter
 
-import cz.fotosorter.test.ClassPathCopier
+import cz.photosorter.test.ClassPathCopier
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder

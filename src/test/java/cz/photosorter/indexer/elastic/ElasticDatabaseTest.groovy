@@ -1,6 +1,6 @@
-package cz.fotosorter.indexer.elastic
+package cz.photosorter.indexer.elastic
 
-import cz.fotosorter.indexer.api.PhotoInfo
+import cz.photosorter.indexer.api.PhotoInfo
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
