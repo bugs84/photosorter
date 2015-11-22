@@ -57,7 +57,6 @@ class PhotoSorter {
         }
 
         Date date = Utils.getImageDate(image)
-
         if (date == null) {
             println "ERROR - Cannot obtain date from image '$image'. Image will be skipped."
             return
