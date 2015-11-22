@@ -50,6 +50,7 @@ class ElasticDatabase implements Database {
     }
 
     private void prepareIndex() {
+        //this is needed, because I am not able setup "ignore_unavailable" in get request
         IndicesExistsResponse existsResponse = client.admin().indices().prepareExists(indexName).execute().actionGet()
         if (!existsResponse.exists) {
             println "Index doesn't exists - going to create new."
