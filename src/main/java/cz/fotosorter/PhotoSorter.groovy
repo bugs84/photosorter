@@ -7,13 +7,15 @@ import cz.fotosorter.indexer.elastic.ElasticDatabase
 import cz.fotosorter.util.PhotoCrc
 import cz.fotosorter.util.Utils
 import org.apache.commons.io.FileUtils
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import static cz.fotosorter.MoveOrCopy.COPY
 import static cz.fotosorter.MoveOrCopy.MOVE
 
 class PhotoSorter {
 
-    //TODO logger
+    private static final Logger logger = LoggerFactory.getLogger(PhotoSorter.class)
 
     private PhotoSorterSettings settings
 
@@ -28,7 +30,7 @@ class PhotoSorter {
 
     private void setupDatabase() {
         if (settings.databaseDirectory == null) {
-            println "Warning - no databaseDirectory is configured - same files can be copied multiple times"
+            logger.warn "Warning - no databaseDirectory is configured - same files can be copied multiple times"
             database = new DummyDatabase()
         } else {
             database = new ElasticDatabase(databaseDirectory: settings.databaseDirectory.absolutePath)
@@ -36,7 +38,7 @@ class PhotoSorter {
     }
 
     public void sort() {
-        println "Sorting is starting with settings $settings"
+        logger.info "Sorting is starting with settings $settings"
         database.start()
 
         settings.source.eachFileMatch(~/(?i).*\.jpg/) {
@@ -44,21 +46,21 @@ class PhotoSorter {
         }
 
         database.stop()
-        println "Sorting have just finished"
+        logger.info "Sorting have just finished"
     }
 
     private void processFile(File image) {
-        println "Processing file '$image'"
+        logger.info "Processing file '$image'"
 
         PhotoCrc photoCrc = new PhotoCrc(image)
         if (database.contains(photoCrc.crc)) {
-            println "Warning - file '$image' was already processed before. Nothing will be done now."
+            logger.warn "Warning - file '$image' was already processed before. Nothing will be done now."
             return
         }
 
         Date date = Utils.getImageDate(image)
         if (date == null) {
-            println "ERROR - Cannot obtain date from image '$image'. Image will be skipped."
+            logger.error "ERROR - Cannot obtain date from image '$image'. Image will be skipped."
             return
         }
 
@@ -83,11 +85,11 @@ class PhotoSorter {
         //TODO mozna osefovat, kdyby se tam nejaky soubor uz tak jmenoval
         switch (settings.moveOrCopy) {
             case MOVE:
-                println "moving file '$image' into '$destinationFile' "
+                logger.info "moving file '$image' into '$destinationFile' "
                 FileUtils.moveFile(image, destinationFile)
                 break
             case COPY:
-                println "copying file '$image' into '$destinationFile' "
+                logger.info "copying file '$image' into '$destinationFile' "
                 FileUtils.copyFile(image, destinationFile)
                 break
             default:
