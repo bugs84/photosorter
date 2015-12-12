@@ -25,6 +25,7 @@ class PhotoSorter {
 
     PhotoSorter(PhotoSorterSettings settings) {
         this.settings = settings
+        this.settings.validate()
         setupDatabase()
     }
 
@@ -40,12 +41,17 @@ class PhotoSorter {
     public void sort() {
         logger.info "Sorting is starting with settings $settings"
         database.start()
-
-        settings.source.eachFileMatch(~/(?i).*\.jpg/) {
-            processFile(it)
+        try {
+            settings.source.eachFileMatch(~/(?i).*\.jpg/) {
+                processFile(it)
+            }
+        } catch (Exception ex) {
+            logger.error("", ex)
+            throw ex
+        } finally {
+            database.stop()
         }
 
-        database.stop()
         logger.info "Sorting have just finished"
     }
 
@@ -74,7 +80,7 @@ class PhotoSorter {
                 newPath: destinationFile.absolutePath,
                 originalName: image.name,
                 newName: destinationFile.name,
-        //TODO dalsi udaje do photo infa
+                //TODO dalsi udaje do photo infa
         )
         database.insert(photoInfo)
 
