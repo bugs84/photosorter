@@ -15,6 +15,11 @@ class PhotoSorterSettings {
     /** directory where will be stored information about files, which was already processed.
      * Thanks to it same file will not be copied multiple times */
     File databaseDirectory
+
+    def validate() {
+        assert source != null
+        assert destination != null
+    }
 }
 
 enum MoveOrCopy {
