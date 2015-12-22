@@ -1,6 +1,6 @@
 package cz.photosorter.indexer.elastic
-
 import cz.photosorter.indexer.api.PhotoInfo
+import org.joda.time.DateTime
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -31,6 +31,7 @@ class ElasticDatabaseTest {
 
         assert photoInfo.crc == returnedPhotoInfo.crc
         assert photoInfo.originalPath == returnedPhotoInfo.originalPath
+        assert photoInfo.takenDate == returnedPhotoInfo.takenDate
     }
 
     @Test
@@ -51,6 +52,7 @@ class ElasticDatabaseTest {
                 originalName: "Original Name.jpg",
                 newPath: "c:/tmp/new dir/file.jpg",
                 newName: "Original Name.jpg",
+                takenDate: new DateTime(2015, 12, 24, 18, 24, 52).toDate()
         )
     }
 }
