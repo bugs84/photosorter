@@ -80,7 +80,8 @@ class PhotoSorter {
                 newPath: destinationFile.absolutePath,
                 originalName: image.name,
                 newName: destinationFile.name,
-                //TODO dalsi udaje do photo infa
+                indexedDate: new Date(),
+                takenDate: date,
         )
         database.insert(photoInfo)
 

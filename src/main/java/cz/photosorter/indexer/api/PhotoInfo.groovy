@@ -11,6 +11,8 @@ class PhotoInfo {
     String originalName
     String newPath
     String newName
-    //todo indexed date
-    //todo date when was photo taken
+    /** date when was photo taken */
+    Date takenDate
+    /** date when photo was indexed */
+    Date indexedDate
 }
