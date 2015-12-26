@@ -1,10 +1,11 @@
 package cz.photosorter.indexer.elastic
-
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.ObjectReader
 import com.fasterxml.jackson.databind.ObjectWriter
 import cz.photosorter.indexer.api.Database
 import cz.photosorter.indexer.api.PhotoInfo
+import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequestBuilder
+import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse
 import org.elasticsearch.action.get.GetRequestBuilder
 import org.elasticsearch.action.get.GetResponse
@@ -46,11 +47,28 @@ class ElasticDatabase implements Database {
     @Override
     public void start() {
         def builder = NodeBuilder.nodeBuilder()
-        builder.getSettings().put("path.data", databaseDirectory)
+        builder.settings
+                .put("path.data", databaseDirectory)
+                .put("path.home", databaseDirectory)
+                //.put("http.enabled", false)  this will turn off port 9200 with rest api
+        builder
+                .data(true)
+                .local(true)
+
         node = builder.node()
         client = this.node.client()
 
         prepareIndex()
+
+        waitForStartup()
+    }
+
+    private void waitForStartup() {
+        //wait for yellow - Its here because i get NoShardAvailableActionException during first get (without thread sleep)
+        ClusterHealthRequestBuilder healthRequest = client.admin().cluster().prepareHealth();
+        healthRequest.setIndices(indexName); // only request health of this index...
+        healthRequest.setWaitForYellowStatus();
+        ClusterHealthResponse healthResponse = healthRequest.execute().actionGet();
     }
 
     private void prepareIndex() {

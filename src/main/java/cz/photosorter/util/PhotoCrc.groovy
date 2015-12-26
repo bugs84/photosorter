@@ -19,4 +19,8 @@ class PhotoCrc {
         crc
     }
 
+    @Override
+    public String toString() {
+        crc
+    }
 }
