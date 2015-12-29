@@ -15,4 +15,5 @@ class PhotoInfo {
     Date takenDate
     /** date when photo was indexed */
     Date indexedDate
+    String additionalInfo
 }
