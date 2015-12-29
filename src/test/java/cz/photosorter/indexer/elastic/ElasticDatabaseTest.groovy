@@ -1,4 +1,5 @@
 package cz.photosorter.indexer.elastic
+
 import cz.photosorter.indexer.api.PhotoInfo
 import org.joda.time.DateTime
 import org.junit.After
