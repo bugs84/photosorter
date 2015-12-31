@@ -135,30 +135,17 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>cz.photosorter.Main</mainClass>
+                            <mainClass>cz.vondr.photosorter.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-            <!--<artifactId>maven-assembly-plugin</artifactId>-->
-            <!--<configuration>-->
-            <!--<archive>-->
-            <!--<manifest>-->
-            <!--<mainClass>cz.photosorterr.Main</mainClass>-->
-            <!--</manifest>-->
-            <!--</archive>-->
-            <!--<descriptorRefs>-->
-            <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
-            <!--</descriptorRefs>-->
-            <!--</configuration>-->
-            <!--</plugin>-->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>cz.photosorter.Main</mainClass>
+                            <mainClass>cz.vondr.photosorter.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

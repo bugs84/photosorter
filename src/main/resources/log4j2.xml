@@ -12,7 +12,7 @@
         <Logger name="org.elasticsearch" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="cz.photosorter" level="info" additivity="false">
+        <Logger name="cz.vondr.photosorter" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Root level="info">
