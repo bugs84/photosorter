@@ -10,10 +10,13 @@ import org.slf4j.LoggerFactory
 
 import static groovy.io.FileType.FILES
 
+/**
+ * I use it to add images into database without sorting (moving) it
+ */
 class PhotoIndexer {
     private static final Logger logger = LoggerFactory.getLogger(PhotoIndexer.class)
 
-    private Database database = new ElasticDatabase()
+    private Database database
     File databaseDirectory
     File directoryToIndex
 
@@ -26,10 +29,8 @@ class PhotoIndexer {
         }
     }
 
-
     public void indexFiles() {
         setupDatabase()
-
 
         logger.info "Indexing is starting, database directory: '$databaseDirectory'"
         database.start()
@@ -39,9 +40,6 @@ class PhotoIndexer {
                     processFile(file)
                 }
             }
-//            directoryToIndex.eachFileMatch(~/(?i).*\.jpg/) {
-//                processFile(it)
-//            }
         } catch (Exception ex) {
             logger.error("", ex)
             throw ex
@@ -83,16 +81,11 @@ class PhotoIndexer {
     }
 
     // START -----------
-    private void start() {
-        databaseDirectory = new File("c:\\tmp\\zkouseni_photoSorteru\\database")
-        directoryToIndex = new File("c:\\tmp\\zkouseni_photoSorteru\\")
-
-        indexFiles()
-
-    }
 
     public static void main(String[] args) {
-        PhotoIndexer app = new PhotoIndexer();
-        app.start();
+        PhotoIndexer app = new PhotoIndexer(
+                databaseDirectory: new File("c:\\tmp\\zkouseni_photoSorteru\\database"),
+                directoryToIndex: new File("c:\\tmp\\zkouseni_photoSorteru\\"))
+        app.indexFiles()
     }
 }
