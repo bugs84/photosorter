@@ -44,7 +44,7 @@ class NoDbBasicIntegrationTest {
     void prepareSourceDirectory() {
         sourceFolder = temporaryFolder.newFolder("source")
         Resource[] resources = new PathMatchingResourcePatternResolver()
-                .getResources("classpath*:/cz/photosorter/tests/testphotos1/**")
+                .getResources("classpath*:/cz/vondr/photosorter/tests/testphotos1/**")
         resources.each { resource ->
             copy(resource.getInputStream(), sourceFolder.toPath().resolve(resource.filename), StandardCopyOption.REPLACE_EXISTING)
         }
