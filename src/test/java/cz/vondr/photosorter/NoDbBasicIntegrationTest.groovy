@@ -9,7 +9,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
 import java.nio.file.StandardCopyOption
 
-import static cz.vondr.photosorter.settings.MoveOrCopy.MOVE
+import static cz.vondr.photosorter.settings.FileOperation.MOVE
 import static java.nio.file.Files.copy
 
 class NoDbBasicIntegrationTest {
@@ -28,7 +28,7 @@ class NoDbBasicIntegrationTest {
         def photoSorter = new PhotoSorter(new PhotoSorterSettings(
                 source: sourceFolder,
                 destination: destinationFolder,
-                moveOrCopy: MOVE,
+                fileOperation: MOVE,
         ))
         photoSorter.sort()
 

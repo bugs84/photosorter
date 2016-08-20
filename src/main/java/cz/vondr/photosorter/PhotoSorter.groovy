@@ -12,8 +12,9 @@ import org.apache.commons.io.FileUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static cz.vondr.photosorter.settings.MoveOrCopy.COPY
-import static cz.vondr.photosorter.settings.MoveOrCopy.MOVE
+import static cz.vondr.photosorter.settings.FileOperation.COPY
+import static cz.vondr.photosorter.settings.FileOperation.INDEX
+import static cz.vondr.photosorter.settings.FileOperation.MOVE
 
 class PhotoSorter {
 
@@ -92,7 +93,7 @@ class PhotoSorter {
 
     private void moveOrCopyFile(File image, File destinationFile) {
         //TODO mozna osefovat, kdyby se tam nejaky soubor uz tak jmenoval
-        switch (settings.moveOrCopy) {
+        switch (settings.fileOperation) {
             case MOVE:
                 logger.info "moving file '$image' into '$destinationFile' "
                 FileUtils.moveFile(image, destinationFile)
@@ -101,8 +102,11 @@ class PhotoSorter {
                 logger.info "copying file '$image' into '$destinationFile' "
                 FileUtils.copyFile(image, destinationFile)
                 break
+            case INDEX:
+                logger.info "indexing file '$image' "
+                break
             default:
-                throw new IllegalStateException("Unsupported option $settings.moveOrCopy")
+                throw new IllegalStateException("Unsupported option $settings.fileOperation")
         }
     }
 
