@@ -1,18 +1,12 @@
 apply plugin: 'groovy'
-//apply plugin: 'maven'
 
 group = 'cz.vondrsoft'
 version = '1.0-SNAPSHOT'
 
-description = """"""
-
-//sourceCompatibility = 1.8
-//targetCompatibility = 1.8
-
-
+description = """My script for sorting photographs"""
 
 repositories {
-     maven { url "http://repo.maven.apache.org/maven2" }
+    mavenCentral()
 }
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.13'
