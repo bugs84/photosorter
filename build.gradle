@@ -1,0 +1,15 @@
+//import cz.vondr.gradle.DistanceCounter
+
+group 'cz.vondr.photosorter'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'groovy'
+
+//Dependencies:
+//for compilation there is in "buildSrc/build.gradle" !!!!!
+
+task aaaa << {
+    println "AAAA"
+//    def distance = new DistanceCounter("Pardubice", "Praha").distance
+//    println distance
+}
