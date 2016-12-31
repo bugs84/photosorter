@@ -25,8 +25,7 @@ class PhotoSorterTest {
 
     @Test
     void 'basic sort with database test'() {
-        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) = setupPhotoSorterWithNoDatabase()
-        settings.databaseDirectory = temporaryFolder.newFolder("database-directory")
+        def (PhotoSorterSettings settings, File resultDir) = setupPhotoSorterWithDatabase()
 
         new PhotoSorter(settings).sort()
 
@@ -35,7 +34,6 @@ class PhotoSorterTest {
         assert new File(resultDir, expectedDirs[0]).list() == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
         assert new File(resultDir, expectedDirs[1]).list() == ["2015_07_17_18-09-11__IMG_5677.JPG"]
     }
-
 
     private List setupPhotoSorterWithNoDatabase() {
         File filesToSortDir = temporaryFolder.newFolder("files-to-sort")
@@ -48,5 +46,11 @@ class PhotoSorterTest {
                 destination: resultDir,
         )
         [settings, filesToSortDir, resultDir]
+    }
+
+    public List setupPhotoSorterWithDatabase() {
+        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) = setupPhotoSorterWithNoDatabase()
+        settings.databaseDirectory = temporaryFolder.newFolder("database-directory")
+        [settings, resultDir]
     }
 }
