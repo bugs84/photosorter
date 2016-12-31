@@ -1,28 +1,15 @@
+//import cz.vondr.gradle.DistanceCounter
+
+group 'cz.vondr.photosorter'
+version '1.0-SNAPSHOT'
+
 apply plugin: 'groovy'
 
-group = 'cz.vondrsoft'
-version = '1.0-SNAPSHOT'
+//Dependencies:
+//for compilation there is in "buildSrc/build.gradle" !!!!!
 
-description = """My script for sorting photographs"""
-
-repositories {
-    mavenCentral()
-}
-dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.13'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version:'2.4.1'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version:'2.4.1'
-    compile group: 'org.codehaus.groovy', name: 'groovy-all', version:'2.4.3'
-    compile group: 'com.drewnoakes', name: 'metadata-extractor', version:'2.6.2'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.4'
-    compile group: 'commons-io', name: 'commons-io', version:'2.4'
-    compile group: 'joda-time', name: 'joda-time', version:'2.9.1'
-    compile group: 'org.elasticsearch', name: 'elasticsearch', version:'2.1.1'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.6.2'
-    testCompile group: 'junit', name: 'junit', version:'4.11'
-    testCompile group: 'org.springframework', name: 'spring-core', version:'4.2.3.RELEASE'
-}
-
-task testTask << {
-    println "Test task!!!!!!!!!!!!!!!!"
+task aaaa << {
+    println "AAAA"
+//    def distance = new DistanceCounter("Pardubice", "Praha").distance
+//    println distance
 }
