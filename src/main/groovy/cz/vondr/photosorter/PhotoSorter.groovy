@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory
 import static cz.vondr.photosorter.settings.FileOperation.COPY
 import static cz.vondr.photosorter.settings.FileOperation.INDEX
 import static cz.vondr.photosorter.settings.FileOperation.MOVE
+import static cz.vondr.photosorter.settings.FileOperation.NOTHING
 
 class PhotoSorter {
 
@@ -77,16 +78,18 @@ class PhotoSorter {
 
         moveOrCopyFile(image, destinationFile)
 
-        PhotoInfo photoInfo = new PhotoInfo(
-                crc: photoCrc,
-                originalPath: image.absolutePath,
-                newPath: destinationFile.absolutePath,
-                originalName: image.name,
-                newName: destinationFile.name,
-                indexedDate: new Date(),
-                takenDate: date,
-        )
-        database.insert(photoInfo)
+        if (settings.fileOperation != NOTHING) {
+            PhotoInfo photoInfo = new PhotoInfo(
+                    crc: photoCrc,
+                    originalPath: image.absolutePath,
+                    newPath: destinationFile.absolutePath,
+                    originalName: image.name,
+                    newName: destinationFile.name,
+                    indexedDate: new Date(),
+                    takenDate: date,
+            )
+            database.insert(photoInfo)
+        }
 
         destinationFile.setLastModified(date.getTime())
     }
@@ -104,6 +107,9 @@ class PhotoSorter {
                 break
             case INDEX:
                 logger.info "indexing file '$image' "
+                break
+            case NOTHING:
+                logger.info "file will be processed '$image'"
                 break
             default:
                 throw new IllegalStateException("Unsupported option $settings.fileOperation")
