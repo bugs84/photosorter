@@ -76,7 +76,7 @@ class PhotoSorter {
 
         File destinationFile = getDestinationFile(date, image)
 
-        moveOrCopyFile(image, destinationFile)
+        moveOrCopyFile(image, destinationFile, date)
 
         if (settings.fileOperation != NOTHING) {
             PhotoInfo photoInfo = new PhotoInfo(
@@ -90,20 +90,19 @@ class PhotoSorter {
             )
             database.insert(photoInfo)
         }
-
-        destinationFile.setLastModified(date.getTime())
     }
 
-    private void moveOrCopyFile(File image, File destinationFile) {
-        //TODO mozna osefovat, kdyby se tam nejaky soubor uz tak jmenoval
+    private void moveOrCopyFile(File image, File destinationFile, Date date) {
         switch (settings.fileOperation) {
             case MOVE:
                 logger.info "moving file '$image' into '$destinationFile' "
                 FileUtils.moveFile(image, destinationFile)
+                destinationFile.setLastModified(date.getTime())
                 break
             case COPY:
                 logger.info "copying file '$image' into '$destinationFile' "
                 FileUtils.copyFile(image, destinationFile)
+                destinationFile.setLastModified(date.getTime())
                 break
             case INDEX:
                 logger.info "indexing file '$image' "
@@ -117,6 +116,7 @@ class PhotoSorter {
     }
 
     private File getDestinationFile(Date date, File image) {
+        //TODO mozna osefovat, kdyby se tam nejaky soubor uz tak jmenoval
         def folderName = Utils.getFolderName(date)
         def destinationFolder = new File(settings.destination, folderName)
         def filename = fileNameFormatter.format(date, image.name)
