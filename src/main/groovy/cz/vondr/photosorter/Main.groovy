@@ -16,7 +16,7 @@ This program take all photos from 'source folder' and move them into 'destinatio
     }
 
     static void main(String[] args) {
-        if(args == null || args.length != 2) {
+        if (args == null || args.length != 2) {
             writeHelp()
             return
         }
