@@ -116,11 +116,22 @@ class PhotoSorter {
     }
 
     private File getDestinationFile(Date date, File image) {
-        //TODO mozna osefovat, kdyby se tam nejaky soubor uz tak jmenoval
         def folderName = Utils.getFolderName(date)
         def destinationFolder = new File(settings.destination, folderName)
-        def filename = fileNameFormatter.format(date, image.name)
-        def destinationFile = new File(destinationFolder, filename)
+
+        File destinationFile = null
+        for (int i = 1; destinationFile == null; i++) {
+            if (i >= 10000) {
+                throw new IllegalStateException("Cannot find free filename for file '$image.name' in directory $destinationFolder.canonicalPath'")
+            }
+            def filename = fileNameFormatter.format(date, image.name, i)
+            destinationFile = new File(destinationFolder, filename)
+            if (destinationFile.exists()) {
+                logger.trace("File ${destinationFile.canonicalPath} already exists. Trying anotherone")
+                destinationFile = null
+            }
+        }
+
         destinationFile
     }
 

@@ -31,8 +31,9 @@ class ElasticDatabase implements Database {
     private ObjectWriter jsonWriter
     private ObjectReader jsonReader
     {
-        jsonWriter = new ObjectMapper().writerFor(PhotoInfo.class)
-        jsonReader = new ObjectMapper().readerFor(PhotoInfo.class)
+        def objectMapper = new ObjectMapper()
+        jsonWriter = objectMapper.writerFor(PhotoInfo.class)
+        jsonReader = objectMapper.readerFor(PhotoInfo.class)
     }
 
     String getDatabaseDirectory() {
@@ -46,6 +47,7 @@ class ElasticDatabase implements Database {
 
     @Override
     public void start() {
+        logger.info("Going to start elastic search database. Directory '$databaseDirectory'.")
         def builder = NodeBuilder.nodeBuilder()
         builder.settings
                 .put("path.data", databaseDirectory)
