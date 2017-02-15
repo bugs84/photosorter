@@ -40,7 +40,7 @@ class PhotoSorterTest {
         //given
         def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) = setupPhotoSorterWithNoDatabase()
 
-        def existingFileInResult = new File(resultDir, "2015_05_08/2015_05_08_11-10-51__IMG_5537.JPG")
+        def existingFileInResult = new File(new File(resultDir, "2015_05_08"), "2015_05_08_11-10-51__IMG_5537.JPG")
         existingFileInResult.parentFile.mkdirs()
         existingFileInResult.text = "dummy"
 
