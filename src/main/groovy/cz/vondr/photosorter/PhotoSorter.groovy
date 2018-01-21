@@ -1,5 +1,6 @@
 package cz.vondr.photosorter
 
+import cz.vondr.photosorter.finder.SourceFileFinder
 import cz.vondr.photosorter.indexer.api.Database
 import cz.vondr.photosorter.indexer.api.PhotoInfo
 import cz.vondr.photosorter.indexer.dummy.DummyDatabase
@@ -46,7 +47,7 @@ class PhotoSorter {
         logger.info "Sorting is starting with settings $settings"
         database.start()
         try {
-            settings.source.eachFileMatch(~/(?i).*\.jpg/) {
+            new SourceFileFinder(settings).forEachFile {
                 processFile(it)
             }
         } catch (Exception ex) {
