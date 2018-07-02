@@ -1,10 +1,11 @@
 package cz.vondr.photosorter
 
+import cz.vondr.photosorter.date_resolver.AllTypesDateResolver
+import cz.vondr.photosorter.date_resolver.DateResolver
 import cz.vondr.photosorter.indexer.api.Database
 import cz.vondr.photosorter.indexer.api.PhotoInfo
 import cz.vondr.photosorter.indexer.elastic.ElasticDatabase
 import cz.vondr.photosorter.util.PhotoCrc
-import cz.vondr.photosorter.util.Utils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -19,6 +20,8 @@ class PhotoIndexer {
     private Database database
     File databaseDirectory
     File directoryToIndex
+
+    private DateResolver dateResolver = new AllTypesDateResolver()
 
 
     private void setupDatabase() {
@@ -51,6 +54,9 @@ class PhotoIndexer {
     }
 
     private void processFile(File image) {
+        // TODO Sjednotit tenhle kod s PhotoSorterem  moc to tu nechci dvakrat
+        // SPIS tuhle featuru naucim PhotoSorter
+        // TODO dopsat na tohle test
         logger.info "Processing file '$image'"
 
         PhotoCrc photoCrc = new PhotoCrc(image)
@@ -59,11 +65,12 @@ class PhotoIndexer {
             return
         }
 
-        Date date = Utils.getImageDate(image)
-        if (date == null) {
+        DateResolver.Result dateResult = dateResolver.resolveDate(image)
+        if (!dateResult.resolvedSuccessfully) {
             logger.error "ERROR - Cannot obtain date from image '$image'. Image will be skipped."
             return
         }
+        Date date = dateResult.date
 
         PhotoInfo photoInfo = new PhotoInfo(
                 crc: photoCrc,
