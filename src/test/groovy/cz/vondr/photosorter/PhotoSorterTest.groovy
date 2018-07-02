@@ -1,5 +1,6 @@
 package cz.vondr.photosorter
 
+import cz.vondr.photosorter.settings.FileOperation
 import cz.vondr.photosorter.settings.PhotoSorterSettings
 import cz.vondr.photosorter.test.ClassPathCopier
 import org.junit.Rule
@@ -18,9 +19,9 @@ class PhotoSorterTest {
         new PhotoSorter(settings).sort()
 
         def expectedDirs = ["2015_05_08", "2015_07_17"]
-        assert resultDir.list() == expectedDirs
-        assert new File(resultDir, expectedDirs[0]).list() == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
-        assert new File(resultDir, expectedDirs[1]).list() == ["2015_07_17_18-09-11__IMG_5677.JPG"]
+        assert resultDir.list() as List == expectedDirs
+        assert new File(resultDir, expectedDirs[0]).list() as List == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
+        assert new File(resultDir, expectedDirs[1]).list() as List == ["2015_07_17_18-09-11__IMG_5677.JPG"]
     }
 
     @Test
@@ -30,9 +31,9 @@ class PhotoSorterTest {
         new PhotoSorter(settings).sort()
 
         def expectedDirs = ["2015_05_08", "2015_07_17"]
-        assert resultDir.list() == expectedDirs
-        assert new File(resultDir, expectedDirs[0]).list() == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
-        assert new File(resultDir, expectedDirs[1]).list() == ["2015_07_17_18-09-11__IMG_5677.JPG"]
+        assert resultDir.list() as List == expectedDirs
+        assert new File(resultDir, expectedDirs[0]).list() as List == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
+        assert new File(resultDir, expectedDirs[1]).list() as List == ["2015_07_17_18-09-11__IMG_5677.JPG"]
     }
 
     @Test
@@ -48,7 +49,23 @@ class PhotoSorterTest {
         new PhotoSorter(settings).sort()
 
         //then
-        assert new File(resultDir, "2015_05_08").list() == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_11-10-51__IMG_5537_2.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
+        assert new File(resultDir, "2015_05_08").list() as List == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_11-10-51__IMG_5537_2.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
+
+    }
+
+    //TODO TADY BY BYLO DOBRE OVERIT, ZE SE TO TAKY ZAINDEXOVALO DO DATABAZE
+    @Test
+    void 'if photo sorter run with INDEX option no files are moved'() {
+        //given
+        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) = setupPhotoSorterWithNoDatabase()
+        settings.fileOperation = FileOperation.INDEX
+
+        //when
+        new PhotoSorter(settings).sort()
+
+        //then
+        assert filesToSortDir.list() as List == ["IMG_5537.JPG", "IMG_5545.JPG", "IMG_5677.JPG"]
+        assert resultDir.listFiles().size() == 0
 
     }
 
