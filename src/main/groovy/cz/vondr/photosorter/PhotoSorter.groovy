@@ -1,5 +1,7 @@
 package cz.vondr.photosorter
 
+import cz.vondr.photosorter.date_resolver.AllTypesDateResolver
+import cz.vondr.photosorter.date_resolver.DateResolver
 import cz.vondr.photosorter.finder.SourceFileFinder
 import cz.vondr.photosorter.indexer.api.Database
 import cz.vondr.photosorter.indexer.api.PhotoInfo
@@ -26,7 +28,9 @@ class PhotoSorter {
 
     private FileNameFormatter fileNameFormatter = new FileNameFormatter()
 
-    private Database database = new ElasticDatabase()
+    private Database database
+
+    private DateResolver dateResolver = new AllTypesDateResolver()
 
     PhotoSorter(PhotoSorterSettings settings) {
         this.settings = settings
@@ -69,11 +73,12 @@ class PhotoSorter {
             return
         }
 
-        Date date = Utils.getImageDate(image)
-        if (date == null) {
+        DateResolver.Result dateResult = dateResolver.resolveDate(image)
+        if (!dateResult.resolvedSuccessfully) {
             logger.error "ERROR - Cannot obtain date from image '$image'. Image will be skipped."
             return
         }
+        Date date = dateResult.date
 
         File destinationFile = getDestinationFile(date, image)
 
