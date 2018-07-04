@@ -1,4 +1,7 @@
 package cz.vondr.photosorter.test
+
+import org.apache.commons.io.FileUtils
+import org.codehaus.groovy.runtime.IOGroovyMethods
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
@@ -33,6 +36,15 @@ class ClassPathCopier {
             packageName = packageName.substring(0, packageName.size() - 1)
         }
         packageName
+    }
+
+    static File copyResourceToFile(String resource, File destinationFile) {
+        IOGroovyMethods.withCloseable(
+                ClassPathCopier.class.classLoader.getResourceAsStream(resource)
+        ) { InputStream resourceStream ->
+            FileUtils.copyInputStreamToFile(resourceStream, destinationFile)
+        }
+        destinationFile
     }
 
 }
