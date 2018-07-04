@@ -1,7 +1,6 @@
 package cz.vondr.photosorter.util
 
-import org.apache.commons.io.FileUtils
-import org.codehaus.groovy.runtime.IOGroovyMethods
+import cz.vondr.photosorter.test.ClassPathCopier
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -19,13 +18,7 @@ class PhotoCrcTest {
     }
 
     private File copyLenaFromResourceToFile() {
-        IOGroovyMethods.withCloseable(
-                PhotoCrcTest.class.classLoader.getResourceAsStream("lena.jpg")
-        ) { InputStream lenaStream ->
-            File lenaFile = temporaryFolder.newFile("lena.jpg")
-            FileUtils.copyInputStreamToFile(lenaStream, lenaFile)
-            return lenaFile
-        }
+        ClassPathCopier.copyResourceToFile("lena.jpg", temporaryFolder.newFile("lena.jpg"))
     }
 
 }
