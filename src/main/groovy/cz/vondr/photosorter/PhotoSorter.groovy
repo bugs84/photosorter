@@ -2,6 +2,7 @@ package cz.vondr.photosorter
 
 import cz.vondr.photosorter.date_resolver.AllTypesDateResolver
 import cz.vondr.photosorter.date_resolver.DateResolver
+import cz.vondr.photosorter.date_resolver.DateResult
 import cz.vondr.photosorter.finder.SourceFileFinder
 import cz.vondr.photosorter.indexer.api.Database
 import cz.vondr.photosorter.indexer.api.PhotoInfo
@@ -73,7 +74,7 @@ class PhotoSorter {
             return
         }
 
-        DateResolver.Result dateResult = dateResolver.resolveDate(image)
+        DateResult dateResult = dateResolver.resolveDate(image)
         if (!dateResult.resolvedSuccessfully) {
             logger.error "ERROR - Cannot obtain date from image '$image'. Image will be skipped."
             return

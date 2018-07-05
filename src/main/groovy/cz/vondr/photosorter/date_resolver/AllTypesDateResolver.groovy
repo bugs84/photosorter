@@ -1,15 +1,24 @@
 package cz.vondr.photosorter.date_resolver
 
-import cz.vondr.photosorter.util.Utils
-
 class AllTypesDateResolver implements DateResolver {
 
+    List<DateResolver> resolvers = [
+            new JpgImageMetadataResolver()
+    ]
+
     @Override
-    DateResolver.Result resolveDate(File file) {
-        Date date = Utils.getImageDate(file)
-        new DateResolver.Result(
-                resolvedSuccessfully: date != null,
-                date: date
+
+    DateResult resolveDate(File file) {
+        resolvers.findResult(
+                new DateResult(resolvedSuccessfully: false),
+                { resolver ->
+                    DateResult result = resolver.resolveDate(file)
+                    if (result.resolvedSuccessfully) {
+                        return result
+                    } else {
+                        return null
+                    }
+                }
         )
     }
 

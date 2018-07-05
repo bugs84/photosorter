@@ -5,8 +5,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 
-import static cz.vondr.photosorter.date_resolver.DateResolver.*
-
 class AllTypesDateResolverTest {
 
     @Rule
@@ -21,10 +19,10 @@ class AllTypesDateResolverTest {
         )
 
         //when
-        Result result = new AllTypesDateResolver().resolveDate(classicImage)
+        DateResult result = new AllTypesDateResolver().resolveDate(classicImage)
 
         //then
         assert result.resolvedSuccessfully
-        assert result.date == new GregorianCalendar(2015,4,8,11,10,51).time
+        assert result.date == new GregorianCalendar(2015, 4, 8, 11, 10, 51).time
     }
 }
