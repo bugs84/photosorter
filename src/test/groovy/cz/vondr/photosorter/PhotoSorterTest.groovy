@@ -82,6 +82,7 @@ class PhotoSorterTest {
         def settings = new PhotoSorterSettings(
                 source: filesToSortDir,
                 destination: resultDir,
+                useDatabase: false
         )
         [settings, filesToSortDir, resultDir]
     }

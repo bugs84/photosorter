@@ -29,6 +29,7 @@ class NoDbBasicIntegrationTest {
                 source: sourceFolder,
                 destination: destinationFolder,
                 fileOperation: MOVE,
+                useDatabase: false
         ))
         photoSorter.sort()
 
