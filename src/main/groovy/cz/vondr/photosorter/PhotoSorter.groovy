@@ -40,15 +40,21 @@ class PhotoSorter {
     }
 
     private void setupDatabase() {
-        if (settings.databaseDirectory == null) {
+        if (settings.useDatabase) {
+            File databaseDirectory
+            if (settings.databaseDirectory == null) {
+                databaseDirectory = new File(settings.destination, ".photosorter/database")
+            } else {
+                databaseDirectory = settings.databaseDirectory
+            }
+            database = new ElasticDatabase(databaseDirectory: databaseDirectory.absolutePath)
+        } else {
             logger.warn "Warning - no databaseDirectory is configured - same files can be copied multiple times"
             database = new DummyDatabase()
-        } else {
-            database = new ElasticDatabase(databaseDirectory: settings.databaseDirectory.absolutePath)
         }
     }
 
-    public void sort() {
+    void sort() {
         logger.info "Sorting is starting with settings $settings"
         database.start()
         try {
