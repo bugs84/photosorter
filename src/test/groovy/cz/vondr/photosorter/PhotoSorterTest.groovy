@@ -14,7 +14,8 @@ class PhotoSorterTest {
 
     @Test
     void 'basic sort without database test'() {
-        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) = setupPhotoSorterWithNoDatabase()
+        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) =
+        setupPhotoSorterWithNoDatabase("cz.vondr.photosorter.tests.testphotos1")
 
         new PhotoSorter(settings).sort()
 
@@ -26,7 +27,8 @@ class PhotoSorterTest {
 
     @Test
     void 'basic sort with database test'() {
-        def (PhotoSorterSettings settings, File resultDir) = setupPhotoSorterWithDatabase()
+        def (PhotoSorterSettings settings, File resultDir) =
+        setupPhotoSorterWithDatabase("cz.vondr.photosorter.tests.testphotos1")
 
         new PhotoSorter(settings).sort()
 
@@ -39,7 +41,8 @@ class PhotoSorterTest {
     @Test
     void 'If destination directory already contains file - file with new name is created.'() {
         //given
-        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) = setupPhotoSorterWithNoDatabase()
+        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) =
+        setupPhotoSorterWithNoDatabase("cz.vondr.photosorter.tests.testphotos1")
 
         def existingFileInResult = new File(new File(resultDir, "2015_05_08"), "2015_05_08_11-10-51__IMG_5537.JPG")
         existingFileInResult.parentFile.mkdirs()
@@ -57,7 +60,8 @@ class PhotoSorterTest {
     @Test
     void 'if photo sorter run with INDEX option no files are moved'() {
         //given
-        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) = setupPhotoSorterWithNoDatabase()
+        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) =
+        setupPhotoSorterWithNoDatabase("cz.vondr.photosorter.tests.testphotos1")
         settings.fileOperation = FileOperation.INDEX
 
         //when
@@ -69,11 +73,11 @@ class PhotoSorterTest {
 
     }
 
-    private List setupPhotoSorterWithNoDatabase() {
+    private List setupPhotoSorterWithNoDatabase(String resourceWithPhotos) {
         File filesToSortDir = temporaryFolder.newFolder("files-to-sort")
         File resultDir = temporaryFolder.newFolder("result-dir")
 
-        ClassPathCopier.copyPackageIntoDirectory("cz.vondr.photosorter.tests.testphotos1", filesToSortDir)
+        ClassPathCopier.copyPackageIntoDirectory(resourceWithPhotos, filesToSortDir)
 
         def settings = new PhotoSorterSettings(
                 source: filesToSortDir,
@@ -82,8 +86,9 @@ class PhotoSorterTest {
         [settings, filesToSortDir, resultDir]
     }
 
-    public List setupPhotoSorterWithDatabase() {
-        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) = setupPhotoSorterWithNoDatabase()
+    List setupPhotoSorterWithDatabase(String resourceWithPhotos) {
+        def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) =
+        setupPhotoSorterWithNoDatabase(resourceWithPhotos)
         settings.databaseDirectory = temporaryFolder.newFolder("database-directory")
         [settings, resultDir]
     }
