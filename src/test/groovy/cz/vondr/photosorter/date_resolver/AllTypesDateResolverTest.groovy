@@ -27,7 +27,7 @@ class AllTypesDateResolverTest {
     }
 
     @Test
-    void "resolveDate works for mp4 simple file name format"() {
+    void "resolveDate works for mp4 in LG G6 format"() {
         //given
         File file = temporaryFolder.newFile("20180817_175941.mp4")
 
@@ -37,6 +37,19 @@ class AllTypesDateResolverTest {
         //then
         assert result.resolvedSuccessfully
         assert result.date == new GregorianCalendar(2018, 7, 17, 17, 59, 41).time
+    }
+
+    @Test
+    void "resolveDate works for mp4 in Mi2S format"() {
+        //given
+        File file = temporaryFolder.newFile("VID_20170914_172650.mp4")
+
+        //when
+        DateResult result = new AllTypesDateResolver().resolveDate(file)
+
+        //then
+        assert result.resolvedSuccessfully
+        assert result.date == new GregorianCalendar(2017, 8, 14, 17, 26, 50).time
     }
 
     @Test
