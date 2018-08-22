@@ -14,7 +14,7 @@ class SourceFileFinder {
     void forEachFile(@ClosureParams(value = SimpleType.class, options = "java.io.File") Closure closure) {
         settings.source.eachFileRecurse { file ->
             def lowerCaseName = file.name.toLowerCase()
-            if (lowerCaseName.endsWith(".jpg") /*|| lowerCaseName.endsWith(".mp4")*/) {
+            if (lowerCaseName.endsWith(".jpg") || lowerCaseName.endsWith(".mp4")) {
                 closure(file)
             }
         }
