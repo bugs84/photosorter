@@ -3,12 +3,15 @@ package cz.vondr.photosorter.date_resolver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import static cz.vondr.photosorter.date_resolver.DateResult.NOT_RESOLVED
+
 class AllTypesDateResolver implements DateResolver {
 
     private static final Logger logger = LoggerFactory.getLogger(AllTypesDateResolver.class)
 
-    List<DateResolver> resolvers = [
-            new JpgImageMetadataResolver()
+    private List<DateResolver> resolvers = [
+            new JpgImageMetadataResolver(),
+            new Mp4FileNameResolver()
     ]
 
     @Override
@@ -19,15 +22,15 @@ class AllTypesDateResolver implements DateResolver {
                 return result
             }
         }
-        new DateResult(resolvedSuccessfully: false)
+        NOT_RESOLVED
     }
 
-    public DateResult tryResolveDate(DateResolver resolver, File file) {
+    private DateResult tryResolveDate(DateResolver resolver, File file) {
         try {
             return resolver.resolveDate(file)
         } catch (Exception ex) {
             logger.warn("Resolver (${resolver.class.name}) threw exception", ex)
-            return new DateResult(resolvedSuccessfully: false)
+            return NOT_RESOLVED
         }
     }
 
