@@ -24,6 +24,8 @@ class SourceFileFinderTest {
         pic3.createNewFile()
         File vid1 = new File(folder, "Video 1.mp4")
         vid1.createNewFile()
+        File vid2 = new File(folder, "Video 2.Mp4")
+        vid2.createNewFile()
         File unknown = new File(folder, "Unknown file 1.mp3")
         unknown.createNewFile()
         File subFolder = new File(folder, "subfolder 1")
@@ -39,7 +41,7 @@ class SourceFileFinderTest {
         }
 
         //then
-        assert foundFiles as Set == [pic1, pic2, pic3, subPic1] as Set
+        assert foundFiles as Set == [pic1, pic2, pic3, vid1, vid2, subPic1] as Set
 
     }
 }
