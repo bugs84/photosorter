@@ -25,4 +25,30 @@ class AllTypesDateResolverTest {
         assert result.resolvedSuccessfully
         assert result.date == new GregorianCalendar(2015, 4, 8, 11, 10, 51).time
     }
+
+    @Test
+    void "resolveDate works for mp4 simple file name format"() {
+        //given
+        File file = temporaryFolder.newFile("20180817_175941.mp4")
+
+        //when
+        DateResult result = new AllTypesDateResolver().resolveDate(file)
+
+        //then
+        assert result.resolvedSuccessfully
+        assert result.date == new GregorianCalendar(2018, 7, 17, 17, 59, 41).time
+    }
+
+    @Test
+    void "resolveDate invalid mp4 format"() {
+        //given
+        File file = temporaryFolder.newFile("20180817_invalid_175941.mp4")
+
+        //when
+        DateResult result = new AllTypesDateResolver().resolveDate(file)
+
+        //then
+        assert !result.resolvedSuccessfully
+        assert result.date == null
+    }
 }

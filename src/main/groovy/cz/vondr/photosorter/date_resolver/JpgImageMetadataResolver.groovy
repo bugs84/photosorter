@@ -4,12 +4,14 @@ import com.drew.imaging.ImageMetadataReader
 import com.drew.metadata.exif.ExifIFD0Directory
 import com.drew.metadata.exif.ExifSubIFDDirectory
 
+import static cz.vondr.photosorter.date_resolver.DateResult.NOT_RESOLVED
+
 class JpgImageMetadataResolver implements DateResolver {
 
     @Override
     DateResult resolveDate(File file) {
         if (!file.name.toLowerCase(Locale.US).endsWith(".jpg")) {
-            return new DateResult(resolvedSuccessfully: false)
+            return NOT_RESOLVED
         }
 
         Date date = getImageDate(file)
