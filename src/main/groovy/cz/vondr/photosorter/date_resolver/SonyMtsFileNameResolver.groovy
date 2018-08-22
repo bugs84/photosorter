@@ -1,14 +1,14 @@
 package cz.vondr.photosorter.date_resolver
 
-class LgG6Mp4FileNameResolver extends FileNameResolver {
+class SonyMtsFileNameResolver extends FileNameResolver {
 
     @Override
     String getDateFormat() {
-        "yyyyMMdd_HHmmss"
+        "yyyyMMddHHmmss"
     }
 
     @Override
     String getFileExtension() {
-        ".mp4"
+        ".mts"
     }
 }

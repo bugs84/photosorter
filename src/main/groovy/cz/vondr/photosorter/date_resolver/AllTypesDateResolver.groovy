@@ -12,7 +12,8 @@ class AllTypesDateResolver implements DateResolver {
     private List<DateResolver> resolvers = [
             new JpgImageMetadataResolver(),
             new LgG6Mp4FileNameResolver(),
-            new Mi2sMp4FileNameResolver()
+            new Mi2sMp4FileNameResolver(),
+            new SonyMtsFileNameResolver(),
     ]
 
     @Override
