@@ -13,7 +13,7 @@ class SourceFileFinderTest {
     List<File> foundFiles = []
 
     @Test
-    void testForEachFile() {
+    void "find files in subdirectory"() {
         //given
         File folder = temporaryFolder.newFolder("SourceFileFinderTest")
         File pic1 = new File(folder, "picture1.jpg")
@@ -39,7 +39,7 @@ class SourceFileFinderTest {
         }
 
         //then
-        assert foundFiles as Set == [pic1, pic2, pic3] as Set
+        assert foundFiles as Set == [pic1, pic2, pic3, subPic1] as Set
 
     }
 }
