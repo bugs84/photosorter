@@ -9,17 +9,18 @@ import java.text.ParseException
 
 import static cz.vondr.photosorter.date_resolver.DateResult.NOT_RESOLVED
 
-abstract class Mp4FileNameResolver implements DateResolver {
+abstract class FileNameResolver implements DateResolver {
 
-    private static final Logger logger = LoggerFactory.getLogger(Mp4FileNameResolver.class)
+    private static final Logger logger = LoggerFactory.getLogger(FileNameResolver.class)
 
     abstract String getDateFormat()
+    abstract String getFileExtension()
 
     private FastDateFormat fastDateFormat = FastDateFormat.getInstance(dateFormat)
 
     @Override
     DateResult resolveDate(File file) {
-        if (!file.name.toLowerCase(Locale.US).endsWith(".mp4")) {
+        if (!file.name.toLowerCase(Locale.US).endsWith(fileExtension.toLowerCase())) {
             return NOT_RESOLVED
         }
 
