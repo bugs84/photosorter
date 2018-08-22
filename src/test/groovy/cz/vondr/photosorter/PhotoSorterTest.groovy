@@ -22,10 +22,10 @@ class PhotoSorterTest {
         new PhotoSorter(settings).sort()
 
         //then
-        def expectedDirs = ["2015_05_08", "2015_07_17"]
-        assert resultDir.list() as List == expectedDirs
-        assert new File(resultDir, expectedDirs[0]).list() as List == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
-        assert new File(resultDir, expectedDirs[1]).list() as List == ["2015_07_17_18-09-11__IMG_5677.JPG"]
+        def expectedDirs = ["2015_05_08", "2015_07_17"] as Set
+        assert resultDir.list() as Set == expectedDirs
+        assert new File(resultDir, expectedDirs[0]).list() as Set == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"] as Set
+        assert new File(resultDir, expectedDirs[1]).list() as Set == ["2015_07_17_18-09-11__IMG_5677.JPG"] as Set
     }
 
     @Test
@@ -38,14 +38,14 @@ class PhotoSorterTest {
         new PhotoSorter(settings).sort()
 
         //then
-        def expectedDirs = ["2015_05_08", "2015_07_17"]
-        assert resultDir.list() as List == expectedDirs
-        assert new File(resultDir, expectedDirs[0]).list() as List == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
-        assert new File(resultDir, expectedDirs[1]).list() as List == ["2015_07_17_18-09-11__IMG_5677.JPG"]
+        def expectedDirs = ["2015_05_08", "2015_07_17"] as Set
+        assert resultDir.list() as Set == expectedDirs
+        assert new File(resultDir, expectedDirs[0]).list() as Set == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"] as Set
+        assert new File(resultDir, expectedDirs[1]).list() as Set == ["2015_07_17_18-09-11__IMG_5677.JPG"] as Set
     }
 
     @Test
-    void 'If destination directory already contains file - file with new name is created.'() {
+    void 'If destination directory already contains file - file with new name is created'() {
         //given
         def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) =
         setupPhotoSorterWithNoDatabase("cz.vondr.photosorter.tests.testphotos1")
@@ -58,7 +58,7 @@ class PhotoSorterTest {
         new PhotoSorter(settings).sort()
 
         //then
-        assert new File(resultDir, "2015_05_08").list() as List == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_11-10-51__IMG_5537_2.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
+        assert new File(resultDir, "2015_05_08").list() as Set == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_11-10-51__IMG_5537_2.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"] as Set
 
     }
 
@@ -74,7 +74,7 @@ class PhotoSorterTest {
         new PhotoSorter(settings).sort()
 
         //then
-        assert filesToSortDir.list() as List == ["IMG_5537.JPG", "IMG_5545.JPG", "IMG_5677.JPG"]
+        assert filesToSortDir.list() as Set == ["IMG_5537.JPG", "IMG_5545.JPG", "IMG_5677.JPG"] as Set
         assert resultDir.listFiles().size() == 0
 
     }
