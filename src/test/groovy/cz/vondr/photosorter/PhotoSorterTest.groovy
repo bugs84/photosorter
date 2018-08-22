@@ -14,11 +14,14 @@ class PhotoSorterTest {
 
     @Test
     void 'basic sort without database test'() {
+        //given
         def (PhotoSorterSettings settings, File filesToSortDir, File resultDir) =
         setupPhotoSorterWithNoDatabase("cz.vondr.photosorter.tests.testphotos1")
 
+        //when
         new PhotoSorter(settings).sort()
 
+        //then
         def expectedDirs = ["2015_05_08", "2015_07_17"]
         assert resultDir.list() as List == expectedDirs
         assert new File(resultDir, expectedDirs[0]).list() as List == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
@@ -27,11 +30,14 @@ class PhotoSorterTest {
 
     @Test
     void 'basic sort with database test'() {
+        //given
         def (PhotoSorterSettings settings, File resultDir) =
         setupPhotoSorterWithDatabase("cz.vondr.photosorter.tests.testphotos1")
 
+        //when
         new PhotoSorter(settings).sort()
 
+        //then
         def expectedDirs = ["2015_05_08", "2015_07_17"]
         assert resultDir.list() as List == expectedDirs
         assert new File(resultDir, expectedDirs[0]).list() as List == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
