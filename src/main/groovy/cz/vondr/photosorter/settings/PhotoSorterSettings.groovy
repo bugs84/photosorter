@@ -26,6 +26,11 @@ class PhotoSorterSettings {
      * Default value is null */
     File databaseDirectory = null
 
+    /** Log File location.<br>
+     * If null - log file will be in "${destination}/.photosorter/logs/PhotoSorter.log"<br>
+     * Default value is null */
+    File logFile = null
+
     def validate() {
         assert source != null
         assert destination != null
