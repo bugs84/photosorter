@@ -8,6 +8,7 @@ import cz.vondr.photosorter.indexer.api.Database
 import cz.vondr.photosorter.indexer.api.PhotoInfo
 import cz.vondr.photosorter.indexer.dummy.DummyDatabase
 import cz.vondr.photosorter.indexer.elastic.ElasticDatabase
+import cz.vondr.photosorter.logger.LoggerInitializer
 import cz.vondr.photosorter.settings.PhotoSorterSettings
 import cz.vondr.photosorter.util.FileNameFormatter
 import cz.vondr.photosorter.util.PhotoCrc
@@ -55,6 +56,8 @@ class PhotoSorter {
     }
 
     void sort() {
+        new LoggerInitializer().setupLogger()
+
         logger.info "Sorting is starting with settings $settings"
         database.start()
         try {
@@ -70,6 +73,8 @@ class PhotoSorter {
 
         logger.info "Sorting have just finished"
     }
+
+
 
     private void processFile(File image) {
         logger.info "Processing file '$image'"
