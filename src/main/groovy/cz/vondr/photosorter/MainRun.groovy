@@ -17,8 +17,6 @@ class MainRun {
                 fileOperation: MOVE,
 
                 useDatabase: true,
-//                databaseDirectory: new File("d:/foto/.photosorter/database/")
-                //TODO configure log directory default $destination/.photosorter/logs
         ))
         photoSorter.sort()
     }
