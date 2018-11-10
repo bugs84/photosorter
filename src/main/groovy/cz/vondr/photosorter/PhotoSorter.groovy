@@ -37,7 +37,7 @@ class PhotoSorter {
     PhotoSorter(PhotoSorterSettings settings) {
         this.settings = settings
         this.settings.validate()
-        new LoggerInitializer().setupLogger()
+        new LoggerInitializer(this.settings).setupLogger()
         setupDatabase()
     }
 
