@@ -57,6 +57,8 @@ class PhotoSorter {
     }
 
     void sort() {
+        logger.info ""
+        logger.info "====== Photo Sorter ============================================="
         logger.info "Sorting is starting with settings $settings"
 
         database.start()
