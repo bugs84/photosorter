@@ -82,13 +82,15 @@ class PhotoSorterTest {
     private List setupPhotoSorterWithNoDatabase(String resourceWithPhotos) {
         File filesToSortDir = temporaryFolder.newFolder("files-to-sort")
         File resultDir = temporaryFolder.newFolder("result-dir")
+        File logFile = temporaryFolder.newFile("logFile")
 
         ClassPathCopier.copyPackageIntoDirectory(resourceWithPhotos, filesToSortDir)
 
         def settings = new PhotoSorterSettings(
                 source: filesToSortDir,
                 destination: resultDir,
-                useDatabase: false
+                useDatabase: false,
+                logFile: logFile,
         )
         [settings, filesToSortDir, resultDir]
     }
