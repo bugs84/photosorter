@@ -34,11 +34,10 @@ class NoDbBasicIntegrationTest {
         photoSorter.sort()
 
         assert sourceFolder.list().size() == 0
-        assert destinationFolder.list().toList() == ["2015_05_08", "2015_07_17"]
+        assert destinationFolder.list().toList() == [".photosorter", "2015_05_08", "2015_07_17"]
         assert new File(destinationFolder, "2015_05_08").list().toList() == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"]
         assert new File(destinationFolder, "2015_07_17").list().toList() == ["2015_07_17_18-09-11__IMG_5677.JPG"]
-
-
+        assert new File(destinationFolder, ".photosorter/logs/PhotoSorter.log").exists()
     }
 
 
