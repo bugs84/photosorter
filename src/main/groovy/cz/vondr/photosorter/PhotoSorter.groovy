@@ -37,6 +37,7 @@ class PhotoSorter {
     PhotoSorter(PhotoSorterSettings settings) {
         this.settings = settings
         this.settings.validate()
+        new LoggerInitializer().setupLogger()
         setupDatabase()
     }
 
@@ -56,9 +57,8 @@ class PhotoSorter {
     }
 
     void sort() {
-        new LoggerInitializer().setupLogger()
-
         logger.info "Sorting is starting with settings $settings"
+
         database.start()
         try {
             new SourceFileFinder(settings).forEachFile {

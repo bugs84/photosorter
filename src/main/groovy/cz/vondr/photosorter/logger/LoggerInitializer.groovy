@@ -7,9 +7,13 @@ import org.apache.logging.log4j.Logger
 import org.apache.logging.log4j.core.LoggerContext
 import org.apache.logging.log4j.core.config.Configuration
 import org.apache.logging.log4j.core.config.ConfigurationSource
+import org.apache.logging.log4j.core.config.Configurator
 import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory
+import org.slf4j.LoggerFactory
 
 class LoggerInitializer {
+
+    public static final String LOG_FILE_PROPERTY_KEY = "photosorter.logFile"
 
     private PhotoSorterSettings settings
 
@@ -18,6 +22,8 @@ class LoggerInitializer {
     }
 
     void setupLogger() {
+
+        setLogFileLocation()
         //        LoggerContext context = (LoggerContext) LogManager.getContext(false);
         //        File file = new File("path/to/a/different/log4j2.xml");
         //
@@ -31,9 +37,6 @@ class LoggerInitializer {
         //
         //        ConfigurationFactory.getInstance()
         //        XMLConfigurationFactory.getInstance().getConfiguration(source)
-
-
-
 
 
         InputStream is = this.class.getResourceAsStream("/config/log4j2.xml")
@@ -50,9 +53,23 @@ class LoggerInitializer {
         localLogger.info("CONFIGUREDDDDDDDDDDDDDDDDDDDDDDDD info")
 
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
+
         context.setExternalContext(ctx)
 
+        ctx.updateLoggers(config)
+        ctx.reconfigure()
+
+
+        Configurator.initialize(config)
+
         String message = "Logger have been initialized"
+        org.slf4j.Logger hmmmm = LoggerFactory.getLogger(PhotoSorter.class)
+        hmmmm.info("AAAAAAAAAAAAA===========================")
+        hmmmm.error("AAAAAAAAAAAAA===========================EEEEE")
+    }
+
+    private String setLogFileLocation() {
+        System.setProperty(LOG_FILE_PROPERTY_KEY, logFile.canonicalPath)
     }
 
     private File getLogFile() {
@@ -66,5 +83,5 @@ class LoggerInitializer {
     }
 
     //                databaseDirectory: new File("d:/foto/.photosorter/database/")
-                    //TODO configure log directory default $destination/.photosorter/logs
+    //TODO configure log directory default $destination/.photosorter/logs
 }
