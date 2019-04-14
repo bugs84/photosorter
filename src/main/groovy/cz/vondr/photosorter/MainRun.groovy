@@ -17,6 +17,35 @@ class MainRun {
                 fileOperation: MOVE,
 
                 useDatabase: true,
+
+
+
+//                File source
+//                File destination
+//
+//                /** If files should be copied, moved, or indexed.<br>
+//                 * Index mean, that file is only added into database and nothing else is done with file.<br>
+//                 *  Default is COPY */
+//                FileOperation fileOperation = COPY
+//
+//                /** If database should be used.<br>
+//                 * Into database are stored information about processed files.<br>
+//                 * Thanks to it same file will not be copied multiple times.<br>
+//                 *
+//                 * Default value is true */
+//                Boolean useDatabase = true
+//                /** Directory where will be stored information about files, which was already processed.<br>
+//                 * Thanks to it same file will not be copied multiple times.<br>
+//                 * If null - database directory will be in "${destination}/.photosorter/database/"<br>
+//                 * Default value is null */
+//                File databaseDirectory = null
+//
+//                /** Log File location.<br>
+//                 * If null - log file will be in "${destination}/.photosorter/logs/PhotoSorter.log"<br>
+//                 * Default value is null */
+//                File logFile = null
+
+
         ))
         photoSorter.sort()
     }
