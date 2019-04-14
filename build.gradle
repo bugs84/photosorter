@@ -34,3 +34,10 @@ tasks {
     }
 
 }
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+        events "PASSED", "STARTED", "FAILED", "SKIPPED"
+    }
+}
