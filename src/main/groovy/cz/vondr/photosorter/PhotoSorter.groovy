@@ -8,7 +8,6 @@ import cz.vondr.photosorter.indexer.api.Database
 import cz.vondr.photosorter.indexer.api.PhotoInfo
 import cz.vondr.photosorter.indexer.dummy.DummyDatabase
 import cz.vondr.photosorter.indexer.elastic.ElasticDatabase
-import cz.vondr.photosorter.logger.LoggerInitializer
 import cz.vondr.photosorter.settings.PhotoSorterSettings
 import cz.vondr.photosorter.util.FileNameFormatter
 import cz.vondr.photosorter.util.PhotoCrc
@@ -17,10 +16,7 @@ import org.apache.commons.io.FileUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static cz.vondr.photosorter.settings.FileOperation.COPY
-import static cz.vondr.photosorter.settings.FileOperation.INDEX
-import static cz.vondr.photosorter.settings.FileOperation.MOVE
-import static cz.vondr.photosorter.settings.FileOperation.NOTHING
+import static cz.vondr.photosorter.settings.FileOperation.*
 
 class PhotoSorter {
 
@@ -37,7 +33,6 @@ class PhotoSorter {
     PhotoSorter(PhotoSorterSettings settings) {
         this.settings = settings
         this.settings.validate()
-        new LoggerInitializer(this.settings).setupLogger()
         setupDatabase()
     }
 

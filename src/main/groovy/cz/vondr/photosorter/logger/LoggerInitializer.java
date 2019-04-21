@@ -33,7 +33,7 @@ public class LoggerInitializer {
     private void configure() throws IOException {
         setLogFileLocation();
 
-        Path tmpFile = copyLoggerConfigToTmpFIle();
+        Path tmpFile = copyLoggerConfigToTmpFile();
         configureLoggerFromFile(tmpFile);
 
         LogManager.getLogger(this).info("Logger has been initialized. Log file '" + getLogFile() + "'");
@@ -44,7 +44,7 @@ public class LoggerInitializer {
         context.setConfigLocation(tmpFile.toUri());
     }
 
-    private Path copyLoggerConfigToTmpFIle() throws IOException {
+    private Path copyLoggerConfigToTmpFile() throws IOException {
         Path tmpFile = Files.createTempFile("PhotoSorter_logger_config_", ".xml");
         tmpFile.toFile().deleteOnExit();
         try (InputStream is = this.getClass().getResourceAsStream("/config/log4j2.xml")) {

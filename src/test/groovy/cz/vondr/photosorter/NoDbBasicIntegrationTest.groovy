@@ -22,24 +22,39 @@ class NoDbBasicIntegrationTest {
 
     @Test
     void 'basic'() {
+        //given
         prepareSourceDirectory()
         createEmptyDestinationFolder()
 
-        def photoSorter = new PhotoSorter(new PhotoSorterSettings(
+        //when
+        PhotoSorterSettings settings = new PhotoSorterSettings(
                 source: sourceFolder,
                 destination: destinationFolder,
                 fileOperation: MOVE,
                 useDatabase: false
-        ))
+        )
+        def photoSorter = PhotoSorterFactory.createPhotoSorter(settings)
         photoSorter.sort()
 
+        //then
+        assertFilesAreNotInSourceFolder()
+        assertFilesAreCorrectlySortedInDestination()
+        assertLogFileExist()
+    }
+
+    private void assertFilesAreNotInSourceFolder() {
         assert sourceFolder.list().size() == 0
+    }
+
+    private void assertFilesAreCorrectlySortedInDestination() {
         assert destinationFolder.list() as Set == [".photosorter", "2015_05_08", "2015_07_17"] as Set
         assert new File(destinationFolder, "2015_05_08").list() as Set == ["2015_05_08_11-10-51__IMG_5537.JPG", "2015_05_08_12-01-46__IMG_5545.JPG"] as Set
         assert new File(destinationFolder, "2015_07_17").list() as Set == ["2015_07_17_18-09-11__IMG_5677.JPG"] as Set
-        assert new File(destinationFolder, ".photosorter/logs/PhotoSorter.log").exists()
     }
 
+    private void assertLogFileExist() {
+        assert new File(destinationFolder, ".photosorter/logs/PhotoSorter.log").exists()
+    }
 
     void prepareSourceDirectory() {
         sourceFolder = temporaryFolder.newFolder("source")
