@@ -6,7 +6,7 @@ import static cz.vondr.photosorter.settings.FileOperation.*
 
 class MainRun {
     private void start() {
-        def photoSorter = new PhotoSorter(new PhotoSorterSettings(
+        PhotoSorterSettings settings = new PhotoSorterSettings(
                 //        source: new File("c:/foto/AANikkonTransfer/toSort/"),
                 //        source: new File("d:/foto/AA_Mi2S_Transfer/Camera/"),
 //                source: new File("d:/foto/AANikkonTransfer/foto_Nikon_Besidka/102D3200/"),
@@ -17,8 +17,6 @@ class MainRun {
                 fileOperation: MOVE,
 
                 useDatabase: true,
-
-
 
 //                File source
 //                File destination
@@ -46,7 +44,8 @@ class MainRun {
 //                File logFile = null
 
 
-        ))
+        )
+        PhotoSorter photoSorter = PhotoSorterFactory.createPhotoSorter(settings)
         photoSorter.sort()
     }
 
